@@ -1,1 +1,1 @@
-"Building a Payment Application"
+"Building a basic Payment Application"
