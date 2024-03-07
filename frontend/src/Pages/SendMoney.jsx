@@ -46,8 +46,8 @@ export const SendMoney = () => {
                     />
                     </div>
                     <button onClick={async() => {
-                        // await axios.post(`http://localhost:3000/api/v1/account/transfer`, {
-                        await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/account/transfer", {
+                        await axios.post(`http://localhost:3000/api/v1/account/transfer`, {
+                        // await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/account/transfer", {
                             to: id.trim(),
                             amount: amount
                         },{
