@@ -49,6 +49,11 @@ router.post("/transfer", authmiddleware, async(req, res) => {
             msg: "Invalid Account"
         })
     }
+    if(amount < 1){
+        return res.status(401).json({
+            msg: "Invalid amount"
+        })
+    }
 
     await Account.updateOne(
         {
