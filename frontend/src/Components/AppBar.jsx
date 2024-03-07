@@ -1,6 +1,6 @@
 export function AppBar() {
     return (
-        <div className="flex justify-between h-14 shadow-md">
+        <div className="flex justify-between h-14 shadow-md sticky top-0 bg-white">
             <div className="flex flex-col justify-center h-full ml-4 text-xl text-purple-600 font-bold">
                 PayPlus
             </div>

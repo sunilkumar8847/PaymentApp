@@ -28,7 +28,7 @@ export const Dashboard = () => {
 
     return (
         <div>
-            <AppBar />
+            <AppBar className="fixed" />
             <div className='mt-6 mx-4'>
                 <Balance value={balance}/>
             </div>
