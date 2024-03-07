@@ -11,7 +11,7 @@ export const Dashboard = () => {
         const fetchData = async () => {
             try {
                 // const response = await axios.get(`${window.location.origin}/api/v1/account/balance`, {
-                const response = await axios.get(`http://localhost:3000/api/v1/account/balance`, {
+                const response = await axios.get("https://payment-app-backend-gules.vercel.app/api/v1/account/balance", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
