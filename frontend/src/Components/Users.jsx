@@ -11,6 +11,7 @@ export const Users = () => {
  //use debouncing
     useEffect(()=>{
         axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+        // axios.get(`${window.location.origin}/api/v1/user/bulk?filter=` + filter)
         .then( response => {
             setUsers(response.data.user)
         })
@@ -24,7 +25,7 @@ export const Users = () => {
             <div className='my-2'>
                 <input type="text" placeholder='search users...' onChange={(e) => {
                     setFilter(e.target.value)
-                    }} className='w-full px-2 py-1 border border-slate-200 rounded'/>
+                    }} className='w-full px-2 py-2 border border-slate-300 rounded shadow-md'/>
             </div>
             <div>
                 {users.map(user => <User key={user._id} user={user} />)}
