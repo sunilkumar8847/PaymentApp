@@ -25,8 +25,8 @@ export default function Signup() {
           <InputBox lebel={"Email"} placeholder={"sonu@gmail.com"} onChange={(e) => setUsername(e.target.value)} />
           <InputBox lebel={"Password"} placeholder={""} onChange={(e) => setPassword(e.target.value)} />
           <Button lebel={"Sign Up"} onClick={async () => {
-            const response = await axios.post(`http://localhost:3000/api/v1/user/signup`,{
-            // const response = await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/user/signup", {
+            // const response = await axios.post(`http://localhost:3000/api/v1/user/signup`,{
+            const response = await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/user/signup", {
               firstName, //firstName: firstName
               lastName,
               username,
