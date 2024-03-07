@@ -9,6 +9,9 @@ export const SendMoney = () => {
     const name = searchParams.get("name");
     const [amount, setAmount] = useState(0);
 
+    const [sucessmsg, setSucessmsg] = useState("");
+    const [errormsg, setErrormsg] = useState("");
+
     return <div class="flex justify-center h-screen bg-gray-100">
         <div className="h-full flex flex-col justify-center">
             <div
@@ -43,8 +46,8 @@ export const SendMoney = () => {
                     />
                     </div>
                     <button onClick={async() => {
-                        // await axios.post(`${window.location.origin}/api/v1/account/transfer`, {
-                        await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/account/transfer", {
+                        await axios.post(`http://localhost:3000/api/v1/account/transfer`, {
+                        // await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/account/transfer", {
                             to: id.trim(),
                             amount: amount
                         },{
@@ -54,15 +57,32 @@ export const SendMoney = () => {
                         })
                         .then(res => {
                             console.log(res.data)
-                            console.log(token)
+                            setSucessmsg("Transaction Sucessful!")
+                            setTimeout(() => {
+                                setSucessmsg("");
+                            }, 6000)
+                            
                         }).catch(err => {
+                            setErrormsg("Transaction Failed. Please try again.")
+                            setTimeout(() => {
+                                setErrormsg("");
+                            },6000)
                             console.error("Error: " + err)
+                            
                         })
                     }} class="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
                         Initiate Transfer
                     </button>
                 </div>
                 </div>
+                {sucessmsg && (<div className="absolute top-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-300 p-4 rounded-md">
+                        <p className="text-green-800">{sucessmsg}</p>
+                    </div>)}
+                    {errormsg && (
+                    <div className="absolute top-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-300 p-4 rounded-md">
+                        <p className="text-red-800">{errormsg}</p>
+                    </div>
+                )}
         </div>
       </div>
     </div>
