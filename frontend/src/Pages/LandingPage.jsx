@@ -15,12 +15,20 @@ const LandingPage = () => {
                     Your secure and reliable payment solution.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                    <Button onClick={() => navigate("/signup")} label={"Sign Up"} className="w-full sm:w-auto px-8 py-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300" />
-                    <Button onClick={() => navigate("/signin")} label={"Sign In"} className="w-full sm:w-auto px-8 py-3 font-semibold text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300" />
+                    <Button
+                        onClick={() => navigate("/signup")}
+                        label="Sign Up"
+                        className="w-full sm:w-40 md:w-48 lg:w-56 px-8 py-4 font-semibold text-lg text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300"
+                    />
+                    <Button
+                        onClick={() => navigate("/signin")}
+                        label="Sign In"
+                        className="w-full sm:w-40 md:w-48 lg:w-56 px-8 py-4 font-semibold text-lg text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition duration-300"
+                    />
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default LandingPage;
