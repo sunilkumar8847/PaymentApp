@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiClient, endpoints } from '../Api/apiClient';
 
 const TransactionHistoryModal = ({ isOpen, onClose }) => {
   const [transactions, setTransactions] = useState([]);
@@ -9,7 +9,6 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Small delay to trigger animation
       setTimeout(() => setIsVisible(true), 10);
       fetchTransactions();
     } else {
@@ -19,7 +18,6 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
 
   const handleCloseWithAnimation = () => {
     setIsVisible(false);
-    // Wait for animation to finish before actually closing
     setTimeout(() => onClose(), 300);
   };
 
@@ -28,14 +26,7 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
     setError('');
     
     try {
-      const response = await axios.get(
-        "https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/transactions",
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
-          }
-        }
-      );
+      const response = await apiClient.get(endpoints.getTransactions);
       
       setTransactions(response.data.transactions || []);
     } catch (err) {
@@ -72,7 +63,6 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
         }`}
         onClick={e => e.stopPropagation()}
       >
-        {/* Close button */}
         <button 
           onClick={handleCloseWithAnimation} 
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -83,13 +73,11 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
           </svg>
         </button>
 
-        {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Transaction History</h2>
           <p className="text-sm text-gray-500 mt-1">Your recent payment activities</p>
         </div>
 
-        {/* Content area with scrolling */}
         <div className="overflow-y-auto max-h-[calc(80vh-140px)]">
           {loading ? (
             <div className="py-20 flex justify-center">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiClient, endpoints } from '../Api/apiClient';
 
 const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
   const [amount, setAmount] = useState('');
@@ -10,7 +10,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
 
   useEffect(() => {
     if (isOpen) {
-      // Small delay to trigger animation
       setTimeout(() => setIsVisible(true), 10);
     } else {
       setIsVisible(false);
@@ -19,7 +18,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
 
   const handleCloseWithAnimation = (wasSuccessful) => {
     setIsVisible(false);
-    // Wait for animation to finish before actually closing
     setTimeout(() => onClose(wasSuccessful), 300);
   };
 
@@ -35,26 +33,19 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/transfer", 
+      const response = await apiClient.post(
+        endpoints.transfer, 
         {
           to: recipient.id.trim(),
           amount: Number(amount)
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
-          }
         }
       );
 
       setSuccessMsg("Transaction Successful!");
-      // Reset form
       setAmount('');
       
-      // Close modal after success with animation
       setTimeout(() => {
-        handleCloseWithAnimation(true); // true indicates successful transaction
+        handleCloseWithAnimation(true);
       }, 1500);
     } catch (error) {
       console.error("Transaction error:", error);
@@ -78,7 +69,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
         }`}
         onClick={e => e.stopPropagation()}
       >
-        {/* Close button */}
         <button 
           onClick={() => !isLoading && handleCloseWithAnimation(false)} 
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -90,12 +80,10 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
           </svg>
         </button>
 
-        {/* Header */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Send Money</h2>
         </div>
 
-        {/* Recipient info */}
         <div className="flex items-center space-x-4 mb-6">
           <div className="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center shadow-sm border border-purple-200">
             <span className="text-xl font-bold text-purple-700">
@@ -108,7 +96,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
           </div>
         </div>
 
-        {/* Amount input */}
         <div className="mb-6">
           <label 
             htmlFor="amount"
@@ -127,7 +114,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
           />
         </div>
 
-        {/* Action buttons */}
         <div className="flex gap-3">
           <button
             onClick={() => !isLoading && handleCloseWithAnimation(false)} 
@@ -156,7 +142,6 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
           </button>
         </div>
 
-        {/* Status messages */}
         {successMsg && (
           <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg flex items-center gap-2 animate-fadeIn">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

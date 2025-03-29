@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import axios from "axios"
+import { apiClient, endpoints } from "../Api/apiClient"
 
 export function AppBar() {
     const navigate = useNavigate();
@@ -9,11 +9,7 @@ export function AppBar() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/me", {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
-                    }
-                });
+                const response = await apiClient.get(endpoints.getUser);
                 
                 if (response.data) {
                     setUser(response.data);
@@ -28,7 +24,7 @@ export function AppBar() {
 
     return (
         <div className="h-16 shadow-md sticky top-0 z-10 bg-white">
-            <div className="max-w-7xl mx-auto px-1 flex justify-between items-center h-full">
+            <div className="max-w-7xl mx-auto px-0 flex justify-between items-center h-full">
                 <div className="flex items-center h-full">
                     <div className="flex items-center text-xl text-purple-700 font-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-2 text-purple-700" viewBox="0 0 20 20" fill="currentColor">
@@ -38,7 +34,7 @@ export function AppBar() {
                         PayPlus
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-5">
                     {user && (
                         <div className="text-sm text-gray-600 hidden sm:block">
                             Welcome, {user.firstName}

@@ -82,9 +82,8 @@ router.get('/transactions', authmiddleware, async(req, res) => {
 });
 
 router.post("/transfer", authmiddleware, async(req, res) => {
-    //session wraps the code inside and it either does the transaction completely or doesn't do it. It doesn't do partial transaction
+    // This transaction ensures money transfer is atomic - either completes fully or not at all
     const session = await mongoose.startSession();
-
     session.startTransaction();
 
     const { to, amount } = req.body;
@@ -145,13 +144,11 @@ router.post("/transfer", authmiddleware, async(req, res) => {
         timestamp: new Date()
     }], { session });
 
-    await session.commitTransaction(); //The wrapping ends here
+    await session.commitTransaction();
 
     res.json({
         msg: "Transfer Successful"
     })
-
 })
-
 
 module.exports = router;

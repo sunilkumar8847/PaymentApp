@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import SendMoneyModal from './SendMoneyModal'
+import { apiClient, endpoints } from '../Api/apiClient'
 
 export const Users = ({ onTransactionSuccess }) => {
     const [users, setUsers] = useState([]);
@@ -10,12 +10,14 @@ export const Users = ({ onTransactionSuccess }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    // Use debouncing
     useEffect(() => {
-        axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/bulk?filter=" + filter)
+        apiClient.get(`${endpoints.searchUsers}?filter=${filter}`)
             .then(response => {
                 setUsers(response.data.user)
             })
+            .catch(error => {
+                console.error("Error fetching users:", error);
+            });
     }, [filter])
 
     const handleOpenModal = (user) => {
@@ -30,7 +32,6 @@ export const Users = ({ onTransactionSuccess }) => {
         setIsModalOpen(false);
         setSelectedUser(null);
         
-        // Refresh balance if transaction was successful
         if (wasSuccessful && onTransactionSuccess) {
             onTransactionSuccess();
         }
@@ -61,7 +62,6 @@ export const Users = ({ onTransactionSuccess }) => {
                 ))}
             </div>
 
-            {/* Send Money Modal */}
             {isModalOpen && selectedUser && (
                 <SendMoneyModal 
                     isOpen={isModalOpen}

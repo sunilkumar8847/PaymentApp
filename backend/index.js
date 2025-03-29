@@ -2,23 +2,24 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-// Import configuration
-const { SERVER_CONFIG } = require('./config');
+require('dotenv').config();
 
 // Import database connection
 const { connectDB } = require('./dbConnection');
 const rootRouter = require('./routes/index');
 
 const app = express();
-const PORT = SERVER_CONFIG.PORT;
+const PORT = process.env.PORT || 3000;
 
-// CORS configuration
+// Simple CORS configuration that allows all origins
 app.use(cors({
-  origin: '*',  // Allow requests from any origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
 }));
+
+// Handle OPTIONS method for preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
@@ -27,7 +28,7 @@ app.get('/', (req, res) => {
     res.json({ 
         message: 'PayPlus API is running', 
         status: 'OK',
-        environment: SERVER_CONFIG.NODE_ENV,
+        environment: process.env.NODE_ENV || 'development',
         dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
     });
 });
@@ -54,7 +55,7 @@ const startServer = async () => {
         
         // Then start the server
         app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT} in ${SERVER_CONFIG.NODE_ENV} mode`);
+            console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
         });
     } catch (error) {
         console.error(`Failed to start server: ${error.message}`);

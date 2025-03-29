@@ -3,7 +3,7 @@ import { AppBar } from '../Components/AppBar'
 import Balance from '../Components/Balance'
 import { Users } from '../Components/Users'
 import TransactionHistoryModal from '../Components/TransactionHistoryModal'
-import axios from 'axios'
+import { apiClient, endpoints } from '../Api/apiClient'
 
 export const Dashboard = () => {
     const [balance, setBalance] = useState(0);
@@ -14,12 +14,7 @@ export const Dashboard = () => {
     const fetchBalance = useCallback(async () => {
         try {
             setLoading(true);
-            // Get balance
-            const response = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/balance", {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            });
+            const response = await apiClient.get(endpoints.getBalance);
             setBalance(response.data.balance);
             return true;
         } catch (error) {
@@ -31,23 +26,16 @@ export const Dashboard = () => {
     }, []);
 
     const fetchUserData = useCallback(async () => {
-        // Get user info - this is just for demonstration, you'll need to implement this endpoint
         try {
-            const userResponse = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/me", {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token")
-                }
-            });
+            const userResponse = await apiClient.get(endpoints.getUser);
             if (userResponse.data && userResponse.data.firstName) {
                 setUsername(userResponse.data.firstName);
             }
         } catch (error) {
-            // Silently fail if user endpoint doesn't exist
             console.log("User endpoint not available");
         }
     }, []);
 
-    // Initial data fetch
     useEffect(() => {
         const fetchData = async () => {
             await fetchBalance();
@@ -57,17 +45,14 @@ export const Dashboard = () => {
         fetchData();
     }, [fetchBalance, fetchUserData]);
 
-    // Handler for refreshing balance after successful transaction
     const handleTransactionSuccess = useCallback(async () => {
         await fetchBalance();
     }, [fetchBalance]);
 
-    // Handler for opening transaction history modal
     const handleOpenHistoryModal = () => {
         setIsHistoryModalOpen(true);
     };
 
-    // Handler for closing transaction history modal
     const handleCloseHistoryModal = () => {
         setIsHistoryModalOpen(false);
     };
@@ -118,10 +103,9 @@ export const Dashboard = () => {
             
             <div className='fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 py-3 px-6 flex justify-between items-center'>
                 <div className='text-purple-700 font-medium'>PayPlus</div>
-                <div className='text-xs text-gray-500'>© 2023 All rights reserved</div>
+                <div className='text-xs text-gray-500'>© 2024 All rights reserved</div>
             </div>
 
-            {/* Transaction History Modal */}
             <TransactionHistoryModal 
                 isOpen={isHistoryModalOpen}
                 onClose={handleCloseHistoryModal}

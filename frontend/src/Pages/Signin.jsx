@@ -5,7 +5,7 @@ import InputBox from '../Components/InputBox'
 import Button from '../Components/Button'
 import ButtomWarning from '../Components/ButtomWarning'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { apiClient, endpoints } from '../Api/apiClient'
 
 export default function Signin() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function Signin() {
                             className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 min-h-[52px] rounded-lg shadow-md hover:shadow-lg font-medium text-base transition-all duration-200 w-full"
                             onClick={async() => {
                                 try {
-                                    const response = await axios.post("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/signin", {
+                                    const response = await apiClient.post(endpoints.signin, {
                                         username,
                                         password
                                     });
