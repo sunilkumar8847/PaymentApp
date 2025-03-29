@@ -13,8 +13,13 @@ const rootRouter = require('./routes/index');
 const app = express();
 const PORT = SERVER_CONFIG.PORT;
 
-// Middleware
-app.use(cors());
+// CORS configuration
+app.use(cors({
+  origin: '*',  // Allow requests from any origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 
 // Basic route for checking server status

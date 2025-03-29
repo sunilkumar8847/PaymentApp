@@ -36,7 +36,7 @@ const SendMoneyModal = ({ isOpen, onClose, recipient }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/account/transfer", 
+        "https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/transfer", 
         {
           to: recipient.id.trim(),
           amount: Number(amount)

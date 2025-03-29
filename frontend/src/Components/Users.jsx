@@ -12,7 +12,7 @@ export const Users = ({ onTransactionSuccess }) => {
 
     // Use debouncing
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+        axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/bulk?filter=" + filter)
             .then(response => {
                 setUsers(response.data.user)
             })

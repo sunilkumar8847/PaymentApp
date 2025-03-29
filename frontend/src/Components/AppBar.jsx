@@ -9,7 +9,7 @@ export function AppBar() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/user/me", {
+                const response = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/me", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }

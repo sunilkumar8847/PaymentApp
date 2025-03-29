@@ -28,9 +28,8 @@ const TransactionHistoryModal = ({ isOpen, onClose }) => {
     setError('');
     
     try {
-      // Fixed API endpoint URL to match backend structure
       const response = await axios.get(
-        "http://localhost:3000/api/v1/account/transactions",
+        "https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/transactions",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")

@@ -15,7 +15,7 @@ export const Dashboard = () => {
         try {
             setLoading(true);
             // Get balance
-            const response = await axios.get("http://localhost:3000/api/v1/account/balance", {
+            const response = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/account/balance", {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
@@ -33,7 +33,7 @@ export const Dashboard = () => {
     const fetchUserData = useCallback(async () => {
         // Get user info - this is just for demonstration, you'll need to implement this endpoint
         try {
-            const userResponse = await axios.get("http://localhost:3000/api/v1/user/me", {
+            const userResponse = await axios.get("https://payment-app-backend-inm40e2yg-sunil-kumars-projects-d4f37504.vercel.app/api/v1/user/me", {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
