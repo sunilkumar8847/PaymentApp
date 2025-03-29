@@ -13,7 +13,8 @@ const PORT = process.env.PORT || 3000;
 
 // Simple CORS configuration that allows all origins
 app.use(cors({
-  origin: 'https://payment-app-backend-gules.vercel.app/',
+//   origin: 'http://localhost:5173',
+  origin: 'https://payment-app-frontend-sigma.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
 }));
