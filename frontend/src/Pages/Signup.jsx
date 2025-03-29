@@ -15,29 +15,42 @@ export default function Signup() {
   const navigate = useNavigate();
 
   return (
-    <div className='bg-slate-300 h-screen flex justify-center'>
-      <div className='flex flex-col justify-center drop-shadow-2xl'>
-        <div className='bg-white w-86 text-center p-2 h-max px-8 rounded-lg flex flex-col gap-1'>
-          <Heading lebel={"Sign Up"} />
-          <Subheading lebel={"Enter Your information to create an account"} />
-          <InputBox lebel={"First Name"} placeholder={"Sunil Kumar"} onChange={(e) => setFirstName(e.target.value)} />
-          <InputBox lebel={"Last Name"} placeholder={"Sahoo"} onChange={(e) => setLastName(e.target.value)} />
-          <InputBox lebel={"Email"} placeholder={"sonu@gmail.com"} onChange={(e) => setUsername(e.target.value)} />
-          <InputBox lebel={"Password"} placeholder={""} onChange={(e) => setPassword(e.target.value)} />
-          <Button lebel={"Sign Up"} onClick={async () => {
-            // const response = await axios.post(`http://localhost:3000/api/v1/user/signup`,{
-            const response = await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/user/signup", {
-              firstName, //firstName: firstName
-              lastName,
-              username,
-              password
-            });
-            localStorage.setItem("token", response.data.token);
-            navigate("/dashboard");
-          }
-
-          } />
-          <ButtomWarning lebel={"Alredy registered? "} buttonText={"Login >"} to={"/signin"} />
+    <div className='min-h-screen bg-gradient-to-b from-purple-50 to-white flex justify-center items-center p-4'>
+      <div className='w-full max-w-md'>
+        <div className='bg-white rounded-xl shadow-xl p-8 border border-purple-100'>
+          <Heading label="Sign Up" />
+          <Subheading label="Enter your information to create an account" />
+          
+          <div className="space-y-2">
+            <InputBox label="First Name" placeholder="Sunil Kumar" onChange={(e) => setFirstName(e.target.value)} />
+            <InputBox label="Last Name" placeholder="Sahoo" onChange={(e) => setLastName(e.target.value)} />
+            <InputBox label="Email" placeholder="sonu@gmail.com" onChange={(e) => setUsername(e.target.value)} />
+            <InputBox label="Password" type="password" placeholder="••••••••" onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          
+          <div className="mt-6">
+            <Button 
+              label="Create Account" 
+              className="bg-purple-700 hover:bg-purple-800 text-white px-6 py-3 min-h-[52px] rounded-lg shadow-md hover:shadow-lg font-medium text-base transition-all duration-200 w-full"
+              onClick={async () => {
+                try {
+                  const response = await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/user/signup", {
+                    firstName,
+                    lastName,
+                    username,
+                    password
+                  });
+                  localStorage.setItem("token", response.data.token);
+                  navigate("/dashboard");
+                } catch (error) {
+                  console.error("Signup failed:", error);
+                  alert("Signup failed. Please check your details and try again.");
+                }
+              }}
+            />
+          </div>
+          
+          <ButtomWarning label="Already registered?" buttonText="Login >" to="/signin" />
         </div>
       </div>
     </div>

@@ -123,11 +123,13 @@ router.get("/bulk", async (req, res) => {
         $or: [{
             firstName: {
                 "$regex": filtered,
+                "$options": "i"
             }
         },
         {
             lastName: {
-                "$regex": filtered
+                "$regex": filtered,
+                "$options": "i"
             }
 
         }]
@@ -142,5 +144,29 @@ router.get("/bulk", async (req, res) => {
         }))
     })
 })
+
+router.get("/me", authmiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
+        
+        if (!user) {
+            return res.status(404).json({
+                msg: "User not found"
+            });
+        }
+
+        res.json({
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            _id: user._id
+        });
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        res.status(500).json({
+            msg: "Server error while fetching user data"
+        });
+    }
+});
 
 module.exports = router;

@@ -1,27 +1,69 @@
 import { useNavigate } from "react-router-dom"
-import Button from "./Button"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 export function AppBar() {
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/api/v1/user/me", {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
+                
+                if (response.data) {
+                    setUser(response.data);
+                }
+            } catch (error) {
+                console.log("Could not fetch user data");
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
     return (
-        <div className="flex justify-between h-14 shadow-md sticky top-0 bg-white">
-            <div className="flex flex-col justify-center h-full ml-4 text-xl text-purple-600 font-bold">
-                PayPlus
-            </div>
-            <div className="flex mr-4 gap-4">
-                <div className="flex flex-col justify-center mb-3 mr-8">
-                    <Button lebel={"Log Out"} onClick={() => {
-                        localStorage.removeItem("token");
-                        navigate("/signin");
-                    }} />
+        <div className="h-16 shadow-md sticky top-0 z-10 bg-white">
+            <div className="max-w-7xl mx-auto px-1 flex justify-between items-center h-full">
+                <div className="flex items-center h-full">
+                    <div className="flex items-center text-xl text-purple-700 font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-2 text-purple-700" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                            <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
+                        </svg>
+                        PayPlus
+                    </div>
                 </div>
-                <div className="bg-slate-300 h-12 w-12 rounded-full flex justify-center mt-1 mr-2 drop-shadow-xl">
-                    <div className="flex flex-col justify-center h-full font-bold text-xl ">
-                        U
+                <div className="flex items-center gap-3">
+                    {user && (
+                        <div className="text-sm text-gray-600 hidden sm:block">
+                            Welcome, {user.firstName}
+                        </div>
+                    )}
+                    <button 
+                        onClick={() => {
+                            localStorage.removeItem("token");
+                            navigate("/signin");
+                        }}
+                        title="Log out of your account"
+                        className="bg-white text-purple-700 hover:bg-purple-50 border border-purple-700 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                    <div className="bg-purple-100 h-10 w-10 rounded-full flex justify-center items-center shadow-sm border border-purple-200" title="User profile">
+                        <div className="font-bold text-lg text-purple-700">
+                            {user ? user.firstName[0] : "U"}
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }
