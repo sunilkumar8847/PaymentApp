@@ -26,7 +26,11 @@ export function AppBar() {
         <div className="h-16 shadow-md sticky top-0 z-10 bg-white">
             <div className="max-w-7xl mx-auto px-0 flex justify-between items-center h-full">
                 <div className="flex items-center h-full">
-                    <div className="flex items-center text-xl text-purple-700 font-bold">
+                    <div 
+                        className="flex items-center text-xl text-purple-700 font-bold cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => navigate('/')}
+                        title="Go to Home"
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 mr-2 text-purple-700" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
                             <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
