@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// const API_BASE_URL = 'http://localhost:3000/api/v1';
+// Base URL for all API requests - local development only
 const API_BASE_URL = 'https://payment-app-backend-gules.vercel.app/api/v1';
 
 console.log('Using API URL:', API_BASE_URL);
