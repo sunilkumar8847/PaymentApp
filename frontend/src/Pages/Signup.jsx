@@ -3,7 +3,7 @@ import Subheading from '../Components/Subheading'
 import InputBox from '../Components/InputBox'
 import Button from '../Components/Button'
 import ButtomWarning from '../Components/ButtomWarning'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiClient, endpoints } from '../Api/apiClient'
 
@@ -13,6 +13,15 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if token exists in localStorage
+    const token = localStorage.getItem("token");
+    if (token) {
+      // If token exists, redirect to dashboard
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   return (
     <div className='min-h-screen bg-gradient-to-b from-purple-50 to-white flex justify-center items-center p-4'>

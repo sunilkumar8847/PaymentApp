@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Heading from '../Components/Heading'
 import Subheading from '../Components/Subheading'
 import InputBox from '../Components/InputBox'
@@ -11,6 +11,15 @@ export default function Signin() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        // Check if token exists in localStorage
+        const token = localStorage.getItem("token");
+        if (token) {
+            // If token exists, redirect to dashboard
+            navigate("/dashboard");
+        }
+    }, [navigate]);
 
     return (
         <div className='min-h-screen bg-gradient-to-b from-purple-50 to-white flex justify-center items-center p-4'>
