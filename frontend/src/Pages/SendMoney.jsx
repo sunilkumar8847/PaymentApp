@@ -1,7 +1,7 @@
 //SendMoney-frontend
-import axios from "axios";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { apiClient, endpoints } from "../Api/apiClient";
 
 export const SendMoney = () => {
     const [searchParams] = useSearchParams();
@@ -41,35 +41,30 @@ export const SendMoney = () => {
                         }}
                         type="number"
                         class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                        // id="amount"
                         placeholder="Enter amount"
                     />
                     </div>
                     <button onClick={async() => {
-                        // await axios.post(`http://localhost:3000/api/v1/account/transfer`, {
-                        await axios.post("https://payment-app-backend-gules.vercel.app/api/v1/account/transfer", {
-                            to: id.trim(),
-                            amount: amount
-                        },{
-                            headers: {
-                            Authorization: "Bearer " + localStorage.getItem("token")
-                        }
-                        })
-                        .then(res => {
-                            console.log(res.data)
-                            setSucessmsg("Transaction Sucessful!")
+                        try {
+                            const response = await apiClient.post(
+                                endpoints.transfer,
+                                {
+                                    to: id.trim(),
+                                    amount: Number(amount)
+                                }
+                            );
+                            console.log(response.data);
+                            setSucessmsg("Transaction Successful!");
                             setTimeout(() => {
                                 setSucessmsg("");
-                            }, 6000)
-                            
-                        }).catch(err => {
-                            setErrormsg("Transaction Failed. Please try again.")
+                            }, 6000);
+                        } catch (err) {
+                            setErrormsg("Transaction Failed. Please try again.");
                             setTimeout(() => {
                                 setErrormsg("");
-                            },6000)
-                            console.error("Error: " + err)
-                            
-                        })
+                            }, 6000);
+                            console.error("Error: ", err);
+                        }
                     }} class="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
                         Initiate Transfer
                     </button>
